@@ -8,14 +8,12 @@ from nltk import tokenize
 #tokenizer = nltk.data.load('nltk:tokenizers/punkt/english.pickle')
 from nltk.tokenize import sent_tokenize
 
-
 f = open('had_done_hit.txt', 'r')
 lines = f.readlines()
 f.close()
 
 sentence_list = []
 filt_sentlist=[]
-
 
 def filt():
 	n=1
@@ -30,16 +28,14 @@ def filt():
 				filt_sentlist.append(sentence)
 	#print filt_sentlist
 	print len(filt_sentlist)
-	
-	
+
 def sentencize_sg():
-	grammar_sg = "NP: {<PDT>?<DT>?<WDT>?<PRP$>?<CD>?<JJ>*<JJS>*<JJR>*<NN>}" 
+	grammar_sg = "NP: {<PDT>?<DT>?<WDT>?<PRP$>?<CD>?<JJ>*<JJS>*<JJR>*<NN>}"
 	cp = nltk.RegexpParser(grammar_sg)
 	for sentence in filt_sentlist:
 		tokens = nltk.word_tokenize(sentence)
 		tagged_tuples = nltk.pos_tag(tokens)
 		parsed = cp.parse(tagged_tuples)
-		
 		for i, j in enumerate(parsed):
 			try:
 				if parsed[i][0] == 'have' and parsed[i+1][0] == 'done' and parsed[i+2][-1][1] == 'NN':
@@ -47,25 +43,25 @@ def sentencize_sg():
 					f = open('sg', 'a')
 					f.write(str(x) + '\n')
 					f.close()
-					
+
 					f = open('sg_sent', 'a')
 					f.write(sentence)
 					f.close()
-					
+
 					print str(x)
-			
+
 			except IndexError:
 				pass
-		
+
 
 def sentencize_pl():
-	grammar_pl = "NP: {<PDT>?<DT>?<WDT>?<PRP$>?<CD>?<JJ>*<JJS>*<JJR>*<NNS>}" 
+	grammar_pl = "NP: {<PDT>?<DT>?<WDT>?<PRP$>?<CD>?<JJ>*<JJS>*<JJR>*<NNS>}"
 	cp = nltk.RegexpParser(grammar_pl)
 	for sentence in filt_sentlist:
 		tokens = nltk.word_tokenize(sentence)
 		tagged_tuples = nltk.pos_tag(tokens)
 		parsed = cp.parse(tagged_tuples)
-		
+
 		for i, j in enumerate(parsed):
 			try:
 				if parsed[i][0] == 'have' and parsed[i+1][0] == 'done' and parsed[i+2][-1][1] == 'NNS':
@@ -73,25 +69,24 @@ def sentencize_pl():
 					f = open('pl', 'a')
 					f.write(str(x) + '\n')
 					f.close()
-					
+
 					f = open('pl_sent', 'a')
 					f.write(sentence)
 					f.close()
-					
+
 					print str(x)
-			
+
 			except IndexError:
 				pass
 
-
 def sentencize_pro():
-	grammar_pro = "NP: {<PRP>}" 
+	grammar_pro = "NP: {<PRP>}"
 	cp = nltk.RegexpParser(grammar_pro)
 	for sentence in filt_sentlist:
 		tokens = nltk.word_tokenize(sentence)
 		tagged_tuples = nltk.pos_tag(tokens)
 		parsed = cp.parse(tagged_tuples)
-		
+
 		for i, j in enumerate(parsed):
 			try:
 				if parsed[i][0] == 'have' and parsed[i+1][0] == 'done' and parsed[i+2][-1][1] == 'PRP':
@@ -99,25 +94,25 @@ def sentencize_pro():
 					f = open('pro', 'a')
 					f.write(str(x) + '\n')
 					f.close()
-					
+
 					f = open('pro_sent', 'a')
 					f.write(sentence)
 					f.close()
-					
+
 					print str(x)
-			
+
 			except IndexError:
 				pass
 
 
 def sentencize_wh():
-	grammar_wh = "NP: {<WP>}"  
+	grammar_wh = "NP: {<WP>}"
 	cp = nltk.RegexpParser(grammar_wh)
 	for sentence in filt_sentlist:
 		tokens = nltk.word_tokenize(sentence)
 		tagged_tuples = nltk.pos_tag(tokens)
 		parsed = cp.parse(tagged_tuples)
-		
+
 		for i, j in enumerate(parsed):
 			try:
 				if parsed[i][0] == 'have' and parsed[i+1][0] == 'done' and parsed[i+2][-1][1] == 'WP':
@@ -125,13 +120,13 @@ def sentencize_wh():
 					f = open('wh', 'a')
 					f.write(str(x) + '\n')
 					f.close()
-					
+
 					f = open('wh_sent', 'a')
 					f.write(sentence)
 					f.close()
-					
+
 					print str(x)
-			
+
 			except IndexError:
 				pass
 
@@ -142,7 +137,7 @@ def sentencize_poss():
 		tokens = nltk.word_tokenize(sentence)
 		tagged_tuples = nltk.pos_tag(tokens)
 		parsed = cp.parse(tagged_tuples)
-		
+
 		for i, j in enumerate(parsed):
 			try:
 				if parsed[i][0] == 'have' and parsed[i+1][0] == 'done' and parsed[i+2][-1] == 'PRP$':
@@ -150,13 +145,13 @@ def sentencize_poss():
 					f = open('poss', 'a')
 					f.write(str(x) + '\n')
 					f.close()
-					
+
 					f = open('poss_sent', 'a')
 					f.write(sentence)
 					f.close()
-					
+
 					print str(x)
-			
+
 			except IndexError:
 				pass
 
@@ -173,5 +168,3 @@ print 'sentencized pronominal NPs'
 print 'sentencized wh NPs'
 sentencize_poss()
 print 'sentencized poss NPs'
-
-		
